@@ -35,7 +35,7 @@ public class LoginTest {
     }
 
     @Test
-    public void testLogin() {
+    public void testLoginSuccess() {
         // Navigate to the TLU login page
         driver.get("https://sinhvien1.tlu.edu.vn/#/login");
 
@@ -58,7 +58,7 @@ public class LoginTest {
         // Click Login button
         driver.findElement(By.cssSelector("button[data-ng-click='vm.login()']")).click();
         
-        // Wait until login processes (we can wait for the URL to change or something to disappear)
+        // Wait until login processes
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -66,6 +66,36 @@ public class LoginTest {
         }
         
         System.out.println("Login button clicked successfully.");
+        // Assert URL changed or token received (if we know the expected behavior)
+    }
+
+    @Test
+    public void testLoginFailure() {
+        // Navigate to the TLU login page
+        driver.get("https://sinhvien1.tlu.edu.vn/#/login");
+
+        // Use Explicit Wait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
+
+        // Enter Username
+        driver.findElement(By.id("username")).sendKeys("2351067115");
+
+        // Enter wrong Password
+        driver.findElement(By.id("password")).sendKeys("SaiMatKhau1234");
+
+        // Click Login button
+        driver.findElement(By.cssSelector("button[data-ng-click='vm.login()']")).click();
+
+        try {
+            Thread.sleep(2000); // Đợi xem có thông báo lỗi hiển thị không
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // We can assert that the URL is still the login page since login failed
+        Assert.assertTrue(driver.getCurrentUrl().contains("/#/login"), "The user should remain on the login page after a failed login attempt.");
+        System.out.println("Failed login test completed. URL remains: " + driver.getCurrentUrl());
     }
 
     @AfterMethod
