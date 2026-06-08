@@ -1,4 +1,4 @@
-name: UI Test Automation CI
+name: Failing Tests CI
 
 on:
   push:
@@ -22,12 +22,12 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Run Maven Tests
-      run: mvn clean test
+    - name: Run Failing Tests Only
+      run: mvn clean test -Dtest=LoginTest#testLoginFailure
 
     - name: Upload Test Report
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: testng-report
+        name: failure-testng-report
         path: target/surefire-reports/
