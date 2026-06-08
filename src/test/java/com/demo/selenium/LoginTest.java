@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,19 +22,26 @@ public class LoginTest {
         options.addArguments("--headless=new"); // Important for CI/CD environments
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*");
+        // Pretend to be a normal browser to avoid blocks
+        options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
 
         driver = new ChromeDriver(options);
+        // implicit wait is okay as backup, but we will use explicit wait below
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
         driver.manage().window().maximize();
     }
 
     @Test
-    public void testLogin() throws InterruptedException {
+    public void testLogin() {
         // Navigate to the TLU login page
         driver.get("https://sinhvien1.tlu.edu.vn/#/login");
 
-        // Wait for the login form elements to appear
-        Thread.sleep(3000); // Wait for Angular to load the view
+        // Use Explicit Wait to wait for the login form to appear
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
 
         System.out.println("Page Title: " + driver.getTitle());
         System.out.println("Page URL: " + driver.getCurrentUrl());
@@ -49,8 +58,12 @@ public class LoginTest {
         // Click Login button
         driver.findElement(By.cssSelector("button[data-ng-click='vm.login()']")).click();
         
-        // Brief wait after login
-        Thread.sleep(2000);
+        // Wait until login processes (we can wait for the URL to change or something to disappear)
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         
         System.out.println("Login button clicked successfully.");
     }
