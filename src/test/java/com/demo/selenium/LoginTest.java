@@ -50,7 +50,7 @@ public class LoginTest {
         Assert.assertTrue(driver.getTitle().contains("Education"));
 
         // Enter Username
-        driver.findElement(By.id("username")).sendKeys("2351067115");
+        driver.findElement(By.id("username")).sendKeys("23510627115");
 
         // Enter Password
         driver.findElement(By.id("password")).sendKeys("Thien@172004");
