@@ -2,6 +2,7 @@
 <suite name="UI Automation Suite" verbose="1" parallel="none">
     <test name="Login Tests">
         <classes>
+            <class name="com.demo.selenium.CalculatorTest" />
             <class name="com.demo.selenium.LoginTest" />
         </classes>
     </test>
