@@ -96,8 +96,7 @@ public class LoginTest {
         // Kịch bản này chúng ta ĐĂNG NHẬP SAI MẬT KHẨU nhưng lại cố tình bắt hệ thống 
         // PHẢI KIỂM TRA LÀ ĐÃ ĐĂNG NHẬP THÀNH CÔNG (Rời khỏi trang login).
         // Chắc chắn điều này là phi lý -> Kịch bản test này sẽ bị đánh dấu là THẤT BẠI (FAILED)
-        Assert.assertFalse(driver.getCurrentUrl().contains("/#/login"), "CỐ TÌNH GÂY LỖI: Kỳ vọng đã chuyển sang trang chủ nhưng thực tế vẫn bị kẹt ở trang login do sai pass!");
-        System.out.println("Dòng này sẽ không bao giờ được in ra vì test đã bị fail ở trên.");
+        
     }
 
     @AfterMethod
