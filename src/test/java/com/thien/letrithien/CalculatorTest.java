@@ -1,7 +1,9 @@
-package com.demo.selenium;
+package com.thien.letrithien;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.thien.letrithien.Calculator;
 
 public class CalculatorTest {
 

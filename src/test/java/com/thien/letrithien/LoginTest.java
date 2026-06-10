@@ -1,4 +1,4 @@
-package com.demo.selenium;
+package com.thien.letrithien;
 
 import java.time.Duration;
 import org.openqa.selenium.By;
